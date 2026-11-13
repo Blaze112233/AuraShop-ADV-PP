@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="surface-card p-4 p-lg-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 mb-1">KHQR Paid</span>
+            <h3 class="fw-bold mb-0">Order #{{ order.id }}</h3>
+        </div>
+        <a href="{{ url_for('admin_orders') }}" class="btn btn-soft">Back to Orders</a>
+    </div>
+
+    <div class="row g-3 bg-light p-3 rounded-4 mb-4 border">
+        <div class="col-md-6">
+            <p class="mb-1"><strong>Customer:</strong> {{ order.customer_name }}</p>
+            <p class="mb-1"><strong>Phone:</strong> {{ order.phone }}</p>
+            <p class="mb-0"><strong>Email:</strong> {{ order.email }}</p>
+        </div>
+        <div class="col-md-6">
+            <p class="mb-1"><strong>Order Date:</strong> {{ order.order_date.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p class="mb-0"><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
+        </div>
+    </div>
+
+    <h5 class="fw-bold mb-3">Purchased Items</h5>
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead class="text-muted small text-uppercase">
+                <tr>
+                    <th>Product Name</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th class="text-end">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items %}
+                <tr>
+                    <td class="fw-semibold">{{ item.product_name }}</td>
+                    <td>${{ "%.2f"|format(item.price) }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td class="text-end fw-semibold">${{ "%.2f"|format(item.price * item.quantity) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="3" class="text-end fs-5">Total Amount:</th>
+                    <th class="text-end fs-5 text-primary">${{ "%.2f"|format(order.total_amount) }}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endblock %}

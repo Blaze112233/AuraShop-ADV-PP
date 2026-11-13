@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{{ url_for('index') }}" class="btn btn-link text-decoration-none text-muted ps-0 mb-3">
+    <i class="bi bi-arrow-left"></i> Back to Catalog
+</a>
+
+<div class="surface-card p-4 p-lg-5">
+    <div class="row g-5 align-items-center">
+        <div class="col-md-5 text-center">
+            <div class="bg-light rounded-4 p-3">
+                <img src="{{ product.image }}" class="img-fluid rounded-4 shadow-sm" alt="{{ product.name }}">
+            </div>
+        </div>
+        <div class="col-md-7">
+            <span class="badge rounded-pill px-3 py-2 bg-{{ 'success-subtle text-success' if product.stock > 0 else 'danger-subtle text-danger' }} mb-3">
+                <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>
+                {{ 'In Stock (' ~ product.stock ~ ' units)' if product.stock > 0 else 'Out of Stock' }}
+            </span>
+            <h1 class="fw-bold mb-2">{{ product.name }}</h1>
+            <div class="display-6 fw-bold text-primary my-3">${{ "%.2f"|format(product.price) }}</div>
+            <p class="text-muted lh-lg mb-4">{{ product.description }}</p>
+
+            {% if product.stock > 0 %}
+            <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" class="d-flex gap-3 my-4" style="max-width: 340px;">
+                <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="form-control text-center fw-bold" style="width: 90px;">
+                <button type="submit" class="btn btn-modern flex-grow-1">
+                    <i class="bi bi-bag-plus me-1"></i> Add to Cart
+                </button>
+            </form>
+            {% endif %}
+
+            <hr class="my-4">
+            <p class="small fw-semibold text-uppercase text-muted mb-2">Share Product</p>
+            <div class="d-flex gap-2">
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ product_url }}" target="_blank" class="btn btn-outline-primary rounded-pill px-3 btn-sm">
+                    <i class="bi bi-facebook me-1"></i> Facebook
+                </a>
+                <a href="https://t.me/share/url?url={{ product_url }}&text=Check out {{ product.name }} for ${{ '%.2f'|format(product.price) }}!" target="_blank" class="btn btn-outline-info rounded-pill px-3 btn-sm">
+                    <i class="bi bi-telegram me-1"></i> Telegram
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

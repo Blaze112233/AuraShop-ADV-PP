@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="fw-bold mb-4">Checkout & KHQR Payment</h2>
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="surface-card p-4 p-lg-5">
+            <h5 class="fw-bold mb-4"><i class="bi bi-person-lines-fill text-primary me-2"></i>Delivery Details</h5>
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold small">Full Name *</label>
+                    <input type="text" name="full_name" class="form-control" required placeholder="e.g. Sok Dara">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold small">Email Address *</label>
+                        <input type="email" name="email" class="form-control" required placeholder="dara@example.com">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold small">Phone Number *</label>
+                        <input type="text" name="phone" class="form-control" required placeholder="012 345 678">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold small">Shipping Address *</label>
+                    <textarea name="shipping_address" class="form-control" rows="3" required placeholder="House #, Street, Sangkat, Khan, Phnom Penh"></textarea>
+                </div>
+                <button type="submit" class="btn btn-modern w-100 btn-lg">
+                    <i class="bi bi-shield-check me-1"></i> Confirm KHQR Payment & Place Order
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="surface-card p-4 text-center">
+            <span class="badge bg-danger-subtle text-danger rounded-pill px-3 py-2 mb-3 fw-semibold">Instant Bank Transfer</span>
+            <h5 class="fw-bold mb-3">Scan Bakong / KHQR</h5>
+            <div class="khqr-box mb-3">
+                <div class="khqr-header">KHQR</div>
+                <div class="p-3">
+                    <div class="text-start small text-muted fw-semibold">{{ store_name }}</div>
+                    <div class="text-start fw-bold fs-3 mb-2">${{ "%.2f"|format(total_amount) }}</div>
+                    <hr class="my-2">
+                    <img src="data:image/png;base64,{{ khqr_img }}" alt="KHQR Code" class="img-fluid">
+                </div>
+            </div>
+            <p class="small text-muted mb-0">Supported by ABA, ACLEDA, Wing, Bakong & all KHQR mobile apps. Scan first, then click confirm.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
